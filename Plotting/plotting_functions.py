@@ -707,21 +707,7 @@ def plot_correlation_matrix(mat_corr,title,**options):
     norm = options.get("norm","linear")
     vmin = options.get("vmin",0.0)
     vmax = options.get("vmax",1.0)
-    
-    match norm:    
-        case "log":
-            cnorm = LogNorm(vmin=vmin,vmax=vmax) 
-        case "sqre":
-            cnorm = FuncNorm((sqre_forward, sqre_inverse), vmin=vmin, vmax=vmax) 
-        case "sqrt":
-            cnorm = FuncNorm((sqrt_forward, sqrt_inverse), vmin=vmin, vmax=vmax) 
-        case "center":        
-            cnorm = TwoSlopeNorm(vmin=vmin, vcenter=0.5*(vmin+vmax), vmax=vmax)
-        case "bnd":
-            bounds = np.array([0.0, 0.2, 0.4, 0.6, 0.8, 1.0])
-            cnorm = BoundaryNorm(boundaries=bounds, ncolors=256)
-        case _:
-            cnorm = Normalize(vmin=vmin,vmax=vmax)
+    cnorm = Normalize(vmin=vmin,vmax=vmax)
 
         
     # Generate a mask for the upper triangle

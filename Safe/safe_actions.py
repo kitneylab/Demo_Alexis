@@ -176,4 +176,23 @@ def safely_read_pkl_to_dataframe(pkl_file,**options):
         return {"data":{}, "msg": f"Pickle {pkl_file} cound not be read","status":"Failure", 
                 "boolean_status":False, "error_logs":error_logs,"event_logs":event_logs}
     
+
+# ---------------------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------------------- 
+
+
+def safely_read_csv_to_dataframe(csv_file,**options):
+    event_logs = []
+    error_logs = []
+    
+    try:
+        content = pd.read_csv(csv_file)
+        
+        event_logs.append(f"CSV {csv_file} could be read")
+        return {"data":content, "msg": f"CSV {csv_file} could be read","status":"Success", 
+                "boolean_status":True, "error_logs":error_logs,"event_logs":event_logs}
+    except:
+        error_logs.append(f"CSV {csv_file} could not be read")
+        return {"data":{}, "msg": f"CSV {csv_file} cound not be read","status":"Failure", 
+                "boolean_status":False, "error_logs":error_logs,"event_logs":event_logs}
     

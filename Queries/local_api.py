@@ -129,16 +129,15 @@ def list_run_resources(resource,datastore,constraints={}, rest_output=False):
 
 def list_file_resources(resource,datastore,**kwargs):
     
-    
     try:
         file_type = resource.split('/')[-1]
         file_location = '/'.join(resource.split('/')[0:-1])
         complete_location = os.path.join(datastore,file_location)
 
         _,_,files_in_dir = tuple(os.walk(complete_location))[0]
-        all_files = [os.path.join(file_location,file) for file in files_in_dir if file.split('.')[-1].lower()==file_type.lower()]
-#         print(all_files)
-#         os.path.relpath(file,datastore)
+        all_files = [os.path.join(file_location,file) for file in files_in_dir 
+                     if file.split('.')[-1].lower()==file_type.lower()]
+
         return all_files
     except: return []
 
@@ -158,12 +157,13 @@ def get_resources(request,datastore,constraints={},rest_output=False):
 
     pkl_pattern = re.compile(r"^([^\/]+)\/([^\/]+)\/([^\/]+)/pkl$")
     json_pattern = re.compile(r"^([^\/]+)\/([^\/]+)\/([^\/]+)/json$")
-#     print(rest_output)
+
     
     if run_pattern.findall(resource):
         return list_runs(datastore,constraints=constraints,rest_output=rest_output)
     if general_resource_pattern.findall(resource):
         return list_run_resources(resource,datastore,constraints=constraints,rest_output=rest_output)
+    
     if pkl_pattern.findall(resource):
         return list_file_resources(resource,datastore,constraints=constraints,rest_output=rest_output)
     return [] 
@@ -180,6 +180,6 @@ def build_api(datastore):
         return get_resources(request,datastore,constraints,rest_output)
     return curried_api
 
-    
-    
+
+
 
